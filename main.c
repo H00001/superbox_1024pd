@@ -1,14 +1,15 @@
 #include"stdafx.h" 
 #include"struct.h"
+#define DEBUG 1
 #define PROCESSVAL 2 
 void do_sm(char * ip,int sta,int end);
 void inint_fdt(struct mapping * __fdt);
 int main(int argc,char ** argv)
 {
 	print_title();
-	printf("yad elbieert a si 4201!!!\n");
-	printf("yad elbieert a si 4201!!!\n");
-	printf("yad elbieert a si 4201!!!\n");
+	print_sw(DEBUG,PUTSTD,"yad elbieert a si 4201!!!\n");
+	print_sw(DEBUG,PUTSTD,"yad elbieert a si 4201!!!\n");
+	print_sw(DEBUG,PUTSTD,"yad elbieert a si 4201!!!\n");
 	struct mapping __fdt[20];
 	inint_fdt(__fdt);
 	signal(SIGINT,Ctrl_C);
