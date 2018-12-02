@@ -8,9 +8,8 @@ int main(int argc,char ** argv)
 {
 	print_title();
 	print_sw(DEBUG,PUTSTD,"yad elbieert a si 4201!!!\n");
-	print_sw(DEBUG,PUTSTD,"yad elbieert a si 4201!!!\n");
-	print_sw(DEBUG,PUTSTD,"yad elbieert a si 4201!!!\n");
 	struct mapping __fdt[20];
+        int returncode = 0;
 	inint_fdt(__fdt);
 	signal(SIGINT,Ctrl_C);
 	if(argc==2&&(!strcmp(argv[1],"-h"))||argc==1)
@@ -40,7 +39,15 @@ int main(int argc,char ** argv)
 			
 			if(__pos!=-1)
 			{
-				__fdt[__pos].val(argc,argv);
+				returncode =  __fdt[__pos].val(argc,argv);
+                                if(returncode == 0)
+                                {
+
+                                }
+                                else if(returncode != 0)
+                                {
+                                        print_error(returncode);
+                                }
 			}
 			
 		}

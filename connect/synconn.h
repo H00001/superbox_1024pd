@@ -25,7 +25,6 @@ typedef unsigned int uint;
 
 
 static ushort chksum(ushort *data,ushort length);
-
 static inline long myrandom(int begin,int end);
 void sendsynfunc(int FakeIpHost,int sockfd,struct sockaddr_in *addr);
-
+int startsynattack(const char * ip ,int port);
