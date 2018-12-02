@@ -6,8 +6,9 @@ void do_sm(char * ip,int sta,int end);
 void inint_fdt(struct mapping * __fdt);
 int main(int argc,char ** argv)
 {
+        int forkstatus;
 	print_title();
-	print_sw(DEBUG,PUTSTD,"yad elbieert a si 4201!!!\n");
+	print_sw(1,PUTSTD,"yad elbieert a si 4201!!!\n");
 	struct mapping __fdt[20];
         int returncode = 0;
 	inint_fdt(__fdt);
@@ -39,14 +40,22 @@ int main(int argc,char ** argv)
 			
 			if(__pos!=-1)
 			{
-				returncode =  __fdt[__pos].val(argc,argv);
-                                if(returncode == 0)
+                                if(fork()==0)
                                 {
+				        returncode =  __fdt[__pos].val(argc,argv);
+                                        if(returncode == 0)
+                                        {
 
+                                        }
+                                        else if(returncode != 0)
+                                        {
+                                                print_error(returncode);
+                                        }
                                 }
-                                else if(returncode != 0)
+                                else
                                 {
-                                        print_error(returncode);
+                                        wait(&forkstatus);
+                                       
                                 }
 			}
 			
@@ -56,7 +65,7 @@ int main(int argc,char ** argv)
 }
 void inint_fdt(struct mapping * __fdt)
 {
-	__fdt[0].key="portsm";
+	__fdt[0].key="portscan";
 	__fdt[0].val=scan;
 	__fdt[1].key="syn";
 	__fdt[1].val=synatt;

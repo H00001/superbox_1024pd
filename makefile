@@ -1,17 +1,27 @@
-cstart: scanner.o sig_h.o disp_title.o main.c stdafx.h struct.h synatt.o disperror.o
+disp_efile=display/disperror.c display/disperror.h
+conn_file=connect/conn.h connect/conn.c
+scanner_file=models/scanner.h models/scanner.c
+sig_hfile=single_handle/sig_h.h single_handle/sig_h.c
+disp_tfile=display/disp_title.h display/disp_title.c
+synco_file=connect/synconn.h connect/synconn.c
+synatt_file=models/synatt.h models/synatt.c
+cstart: scanner.o synconn.o conn.o sig_h.o disp_title.o main.c stdafx.h struct.h synatt.o disperror.o
 	gcc -g synconn.o synatt.o scanner.o conn.o sig_h.o disp_title.o disperror.o main.c stdafx.h struct.h -o cstart
 	rm *.o 
-
-scanner.o:models/scanner.h models/scanner.c connect/conn.h connect/conn.c
-	gcc -c models/scanner.h models/scanner.c connect/conn.h connect/conn.c
-sig_h.o:single_handle/sig_h.h single_handle/sig_h.c
-	gcc -c single_handle/sig_h.h single_handle/sig_h.c
-disp_title.o:display/disp_title.h display/disp_title.c  
-	gcc -c display/disp_title.h display/disp_title.c 
-disperror.o:display/disperror.c display/disperror.h 
-	gcc -c display/disperror.c display/disperror.h
-synatt.o:models/synatt.h models/synatt.c connect/synconn.h connect/synconn.c
-	gcc -c models/synatt.h models/synatt.c connect/synconn.h connect/synconn.c
+conn.o:$(conn_file)
+	gcc -c $(conn_file)
+scanner.o:$(scanner_file)
+	gcc -c $(scanner_file)
+sig_h.o:$(sig_hfile)
+	gcc -c $(sig_hfile)
+disp_title.o:$(disp_tfile)  
+	gcc -c $(disp_tfile)
+disperror.o:$(disp_efile) 
+	gcc -c $(disp_efile)
+synatt.o:$(synatt_file) 
+	gcc -c $(synatt_file)
+synconn.o:$(synco_file)
+	gcc -c $(synco_file)
 clean:
 	rm -r *.o *.gch
 install:

