@@ -1,6 +1,6 @@
 #include "disperror.h"
 
-void print_error(int errorcode)
+void print_error(int __isoutput__, int errorcode)
 {
         if(errorcode > 1000)
         {
@@ -8,9 +8,7 @@ void print_error(int errorcode)
         }
         else
         {
-                if(errorcode == 1)
-                {
-                        print_sw(1,PUTERR,"you should as root to run it\n");
-                }
+                print_sw(__isoutput__,PUTERR,strerror(errorcode));
+
         }
 }

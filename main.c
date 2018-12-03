@@ -49,7 +49,7 @@ int main(int argc,char ** argv)
                                         }
                                         else if(returncode != 0)
                                         {
-                                                print_error(returncode);
+                                                print_error(DEBUG,returncode);
                                         }
                                 }
                                 else

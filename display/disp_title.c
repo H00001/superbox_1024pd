@@ -6,7 +6,7 @@ void print_title()
 	printf("************************************************************\n");
 	printf("*                welcome to use the c tools                *\n");
 	printf("*        the software was developed by dosdrtt             *\n");
-	printf("*                 the last version 3.2.15                  *\n"); 
+	printf("*                 the last version 3.2.16                  *\n"); 
         printf("* github address:https://github.com/H00001/superbox_1024pd *\n"); 
         printf("*        my email address is lnpj.office@gmail.com         *\n"); 
 	printf("************************************************************\n");
